@@ -37,3 +37,38 @@ Element objects. `visit()` implementations will rely on the Element's public
 interface.
 6. The client creates Visitor objects and passes each to Element objects by
 calling `accept()`.
+
+## Single dispatch
+
+`node.double`
+
+## Double dispatch
+
+```
+class Node
+  def double(Integer value); value * 2; end
+  def double(String value); Integer.parseInt(value) * 2; end
+end
+
+node.double(2)
+node.double("51")
+```
+
+## Ruby double dispatch
+
+```
+class Node
+  def accept value
+   method_name = "visit_#{value.class}"
+   send method_name
+  end
+
+  def visit_Integer value
+   value * 2
+  end
+
+  def visit_String value
+    value.to_i * 2
+  end
+end
+```
